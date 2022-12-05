@@ -82,7 +82,7 @@ const Map = (props) => {
     data.forEach((val) => {
       coordinates = val.geometry.coordinates;
       name = val.properties.adm_nm;
-      name = name.substring(5) //서울특별시 자르기  
+      name = name.substring(5); //서울특별시 자르기  
 
       displayArea(coordinates, name);
     });
