@@ -166,4 +166,3 @@ function Print({ranking,local_name,price}){
     </>
    )
 }
-
