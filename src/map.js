@@ -21,7 +21,7 @@ const Map = (props) => {
     const mapContainer = document.getElementById('pollution-map'); // 지도를 표시할 div
     const mapOption = {
       center: new kakao.maps.LatLng(37.559819, 126.8600), // 지도의 중심좌표
-      level: 8, // 지도의 확대 레벨
+      level: 7, // 지도의 확대 레벨
     };
     const map = new kakao.maps.Map(mapContainer, mapOption);
     const customOverlay = new kakao.maps.CustomOverlay({});
@@ -82,7 +82,7 @@ const Map = (props) => {
     data.forEach((val) => {
       coordinates = val.geometry.coordinates;
       name = val.properties.adm_nm;
-      name = name.substring(5) //서울특별시 자르기  
+      name = name.substring(5); //서울특별시 자르기  
 
       displayArea(coordinates, name);
     });
@@ -173,7 +173,7 @@ const Map = (props) => {
 
   return (
     <>
-      <div id="pollution-map" style={{ width: "100%", height: "100%",position:"absolute" }}></div>
+      <div id="pollution-map" style={{ width: "100%", height: "120%",position:"absolute" }}></div>
     </>
   );
 };
