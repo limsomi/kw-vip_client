@@ -1,5 +1,6 @@
 #inputbox
 {
+
     border-radius: 10px;
     border-color:whitesmoke;
     background-color:whitesmoke;
@@ -9,8 +10,33 @@
     margin:10px;
 }
 
+#inputbox2
+{
+    font-weight: 500;
+    border-radius: 10px;
+    border-color:whitesmoke;
+    background-color:whitesmoke;
+    width:200px;
+    height:45px;
+    color:black;
+    margin:10px;
+}
+
 #search_button
 {
+    margin:10px;
+    border-radius: 10px;
+    border-color:whitesmoke;
+    background-color:whitesmoke;
+    width: 70px;;
+    height:45px;
+    color:black;
+}
+
+#btn_back
+{
+    float:right;
+    display: block;
     margin:10px;
     border-radius: 10px;
     border-color:whitesmoke;
@@ -31,20 +57,22 @@
 #btn_acitve{
     width:100px;
     height: 50px;
-    background-color:#212121;
+    background-color:rgba(167, 186, 240, 0.377);
     border-radius: 10px;
-    border-color:black;
-    color: white;
+    border-color:rgb(72, 72, 173);;
+    color: rgb(72, 72, 173);
     padding:15px 15px 15px 15px;
     text-align: center;
     display: inline-block;
     font-size:15px;
     margin: 4px;
+    font-family: 'LINESeedKR-Bd';
 }
 .button{
     position: relative;
+    display: block;
     z-index: 2;
-    float:left;
+    /* float:left; */
     margin-left: 10px;
     margin-top: 10px;
 }
@@ -61,12 +89,16 @@
     display: inline-block;
     font-size:15px;
     margin: 4px;
-
+    font-family: 'LINESeedKR-Bd';
 }
 
 
+
+
 .component_checkbox{
-    position: relative;
+    position:relative;
+    z-index: 2;
+    display:block;
     width:630px;
     height:150px;
     background-color: white;
@@ -81,6 +113,8 @@
 
 .search{
     position:relative;
+    display: block;
+    z-index: 2;
     float:left;
     width:1000px;
     height:50px;
@@ -89,8 +123,10 @@
 }
 
 .component_price{
-    float:left;
     position: relative;
+    z-index: 2;
+    display: block;
+    float:left;
     width:600px;
     height:500px;
     margin:10px;
@@ -104,17 +140,17 @@
 
 
 #window{
-    position: relative;
+    position: absolute;
     z-index: 1;
-    display:block;
-    margin-top: 10px;
+    /* margin-top: 10px; */
     background-color:white;
     width:630px;
-    height: 1000px;
+    height: 1100px;
 }
 
 
 .title{
+    display: block;
     margin:4px 4px 4px 4px;
     font-size:35px;
     font-family: 'SEBANG_Gothic_Bold';
@@ -123,14 +159,48 @@
 
 #local_check{
     font-size: 30px;
-    margin:20px;
+    margin:30px;
     padding: 10px;
     background-color:whitesmoke;
     font-family: 'GangwonEduPowerExtraBoldA';
 }
+#local_check:hover {
+    background-color:rgba(167, 186, 240, 0.377);
+  }
 
+.sub_window{
 
+    position: relative;
+    z-index: 3;
+    background-color:white;
+    width:630px;
+    height:1100px;
+}
 
+#cal_title{
+    font-family: 'GangwonEduPowerExtraBoldA';
+    font-size:30px;
+    padding: 10px;
+    margin:30px;
+}
+
+#total_cost{
+    font-family: 'GangwonEduPowerExtraBoldA';
+    font-size:50px;
+    margin:30px;
+    padding: 5px;
+}
+#total_cal{
+    padding: 20px;
+    margin: 20px;
+}
+
+@font-face {
+    font-family: 'LINESeedKR-Bd';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
 
 @font-face {
     font-family: 'SEBANG_Gothic_Bold';
@@ -145,4 +215,3 @@
     font-weight: normal;
     font-style: normal;
 }
-
