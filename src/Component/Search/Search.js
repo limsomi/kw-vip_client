@@ -59,10 +59,10 @@ var data_value2="";
         data_value2=Content2(search,floor,business);
 
         var data_list=data_value.map((local) =>
-        <div id="local_check" value='true' onClick={(e)=>{onGetdata(local.local_name,local.price,e)}} key={local.id} local_name={local.local_name} price={local.price}>{local.ranking}위 {local.local_name} {parseInt(local.price)}</div>);
+        <div id="local_check" value='true' onClick={(e)=>{onGetdata(local.local_name,local.price,e)}} key={local.id} local_name={local.local_name} price={local.price}>{local.ranking}위 {local.local_name} {parseInt(local.price)}만원</div>);
 
         var data_list2=data_value2.map((local) => 
-        <div id="local_check" value='true' onClick={(e)=>{onGetdata(local.local_name,local.price,e)}} key={local.id} local_name={local.local_name} price={local.price}>{local.ranking}위 {local.local_name} {parseInt(local.price)}</div>);
+        <div id="local_check" value='true' onClick={(e)=>{onGetdata(local.local_name,local.price,e)}} key={local.id} local_name={local.local_name} price={local.price}>{local.ranking}위 {local.local_name} {parseInt(local.price)}만원</div>);
 
         setData(data_list);
         setData2(data_list2);
@@ -71,16 +71,16 @@ var data_value2="";
 
     const onCal=async()=>{
         
-        let rent_e=data_e.value;
-        for(let i = 0; i <rent_e.length ; i++){
-            let location=rent_e[i].구_x+" "+rent_e[i].동
-            if(local==location)
-            {
-                setRent(parseInt(rent_e[i].추정월세));
-                break;
-            }
-        }
-        const total_cost=Number(price)-Number(admin_cost)-Number(person_cost)-Number(rent);
+        // let rent_e=data_e.value;
+        // for(let i = 0; i <rent_e.length ; i++){
+        //     let location=rent_e[i].구_x+" "+rent_e[i].동
+        //     if(local==location)
+        //     {
+        //         setRent(parseInt(rent_e[i].추정월세));
+        //         break;
+        //     }
+        // }
+        const total_cost=Number(price)-Number(admin_cost)-Number(person_cost);
         console.log(price);
         setTotal(total_cost);
         console.log(total_cost);
@@ -154,12 +154,13 @@ var data_value2="";
             <button id="search_button" value='false' onClick={onCal}>계산하기</button>
             <hr></hr>
             {showTotal?(<div id='total_cal'>
-                <div id='cal_title'>인건비가 {person_cost}이고 ,관리비가 {admin_cost},</div>
-                <div id='cal_title'>월세가 {rent} 일 때</div>
+                <div id='cal_title'>인건비가 {person_cost} 만원이고 </div>
+                <div id='cal_title'>관리비가 {admin_cost} 만원 일 때</div>
+                {/* <div id='cal_title'>월세가 {rent} 일 때</div> */}
                 <div id='cal_title'>{local}의 상권 최대 이익은 </div>
                 <p>
                     <span id='total_cost'>{parseInt(total_cost)}</span>
-                    <span id='cal_title'>원 입니다</span>
+                    <span id='cal_title'>만원 입니다</span>
                 </p>
             </div>):null}
         </div>
@@ -270,8 +271,8 @@ function max_data(business){
             {
                 let location = sales[i].구_x + " " + sales[i].동;
                 if(!endList.includes(location)){
-                    if(max <  sales[i].추정매출){
-                        max = sales[i].추정매출;
+                    if(max <  sales[i].추정매출-sales[i].추정월세){
+                        max = sales[i].추정매출-sales[i].추정월세;
                         maxlocation = location;
                     }
                 }
@@ -310,8 +311,8 @@ function min_data(business){//하위 5개 data
                 //min = market[market.length-1].추정월세;
     
                 if(!endList.includes(location)){
-                    if(min >  sales[i].추정매출){
-                        min = sales[i].추정매출;
+                    if(min >  sales[i].추정매출-sales[i].추정월세){
+                        min = sales[i].추정매출-sales[i].추정월세;
                         minlocation = location;
                         //idNum++;
                         //rankingNum--;
