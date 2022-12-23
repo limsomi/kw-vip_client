@@ -1,8 +1,8 @@
 import React, {useState,useEffect} from "react";
 import './Search.css';
 import Map from "../../map";
-import data_e from './sales&rent.json';
 
+import data_e from './sales&rent.json';
 const SearchBar=()=>{
     const [search,setSearch]=useState(""); 
     const [data_print,setData]=useState("");
@@ -28,7 +28,7 @@ var data_value2="";
             setBusiness(e.target.value);
         }
         else{
-            setBusiness("")
+            setBusiness("");
         }        
     }
     const onFloor=(e)=>{
@@ -39,7 +39,7 @@ var data_value2="";
             setFloor(e.target.value);
         }
         else{
-            setFloor("")
+            setFloor("");
         }        
     }
     const onChangeSearch=event=>{
@@ -71,15 +71,7 @@ var data_value2="";
 
     const onCal=async()=>{
         
-        // let rent_e=data_e.value;
-        // for(let i = 0; i <rent_e.length ; i++){
-        //     let location=rent_e[i].구_x+" "+rent_e[i].동
-        //     if(local==location)
-        //     {
-        //         setRent(parseInt(rent_e[i].추정월세));
-        //         break;
-        //     }
-        // }
+       
         const total_cost=Number(price)-Number(admin_cost)-Number(person_cost);
         console.log(price);
         setTotal(total_cost);
@@ -127,13 +119,14 @@ var data_value2="";
                 <div className="component_price">
                     <hr></hr>
                     <div className='price'>지역 별 순위</div>
-                    <div className='orderlist'>내림차 순 &#9660;</div>
-                    <div id='data'>{data_print}</div>
-                    <div className='orderlist'>오름차 순 &#9660;</div>
-                    <div id='data'>{data_print2}</div>
-
+                    <div style={{overflowY: 'auto',  height: '550px'}}>
+                        <div className='orderlist'>내림차 순 &#9660;</div>
+                        <div id='data'>{data_print}</div>
+                        <div className='orderlist'>오름차 순 &#9660;</div>
+                        <div id='data'>{data_print2}</div>
+                    </div>
                 </div>
-        </div>
+            </div>
         </div>
         {showPopup?(
         <div className="sub_window">
@@ -207,7 +200,6 @@ let data=[//test값
     }
 
 ]
-
 
 
 function Content(search,floor,business){
@@ -287,7 +279,6 @@ function max_data(business){
     return maxvalue;
 }
 
-
 function min_data(business){//하위 5개 data
     let minvalue = [];
     let endList = [];
@@ -314,8 +305,7 @@ function min_data(business){//하위 5개 data
                     if(min >  sales[i].추정매출-sales[i].추정월세){
                         min = sales[i].추정매출-sales[i].추정월세;
                         minlocation = location;
-                        //idNum++;
-                        //rankingNum--;
+                        
                     }
     
                 }
@@ -329,3 +319,4 @@ function min_data(business){//하위 5개 data
     return minvalue;
 
 }
+
