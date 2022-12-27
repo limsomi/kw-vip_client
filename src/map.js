@@ -10,7 +10,7 @@ const Map = (props) => {
     let data = geojson.features;
     let coordinates = []; //좌표 저장 배열
     let name = ''; //행정구 이름
- 
+    
 
     const header = {
       "Content-Type": `application/json`,
@@ -82,13 +82,14 @@ const Map = (props) => {
     data.forEach((val) => {
       coordinates = val.geometry.coordinates;
       name = val.properties.adm_nm;
-      name = name.substring(5) //서울특별시 자르기  
+      name = name.substring(5); //서울특별시 자르기  
 
       displayArea(coordinates, name);
     });
 
 
     const paint=(ranking,local_name,coordinates)=>{
+      if(set[ranking] === 0){
         let path=[];
         let points=[];
         
@@ -116,16 +117,18 @@ const Map = (props) => {
         var y=coordinates[0][0][7][0];
         
     
-        const infowindow = new kakao.maps.InfoWindow({ removable: true });
+        const infowindow = new kakao.maps.CustomOverlay({ removable: true });
         var iwPosition=new kakao.maps.LatLng(x,y);
-        const content='<div style="padding:10px;"><p>'+ranking+' 위</p><p><b>' +
-        local_name +'</b></p></div>';
+
+        const content='<div style="border-radius:6px; padding:0px 5px 0px 5px; display:block; text-align:center; background:#fff; font-size:20px;"><p><b>'+ranking+'위<b></p></div>';
         
-       
+         // '<p><b>' + local_name +"<b></p></div>";
         infowindow.setContent(content);
         infowindow.setPosition(iwPosition);
         infowindow.setMap(map);
-    }
+        set[ranking] = 1;
+      }
+    };
 
     
 
@@ -133,29 +136,38 @@ const Map = (props) => {
     let p_coordinates=[];
     let local_name='';
     let p_polygons=[];
-
+    let set = {1:0, 2:0, 3:0};
+    
     try{
       let local1='서울특별시 '+props.local_to_paint['0']['local_name'];
       let local2='서울특별시 '+props.local_to_paint['1']['local_name'];
       let local3='서울특별시 '+props.local_to_paint['2']['local_name'];
       
+      let count = 0;
       geo_data.forEach((val)=>{
       p_coordinates=val.geometry.coordinates;
       local_name=val.properties.adm_nm;
+
       
-      if(local_name===local1)
+      console.log(count , local_name.slice(0, local1.length - 1));
+      count += 1;
+      if(local_name.slice(0, local1.length - 1) === local1.slice(0, -1))
       {
-        paint('1',props.local_to_paint['0']['local_name'],p_coordinates);
+       
+       paint('1',props.local_to_paint['0']['local_name'],p_coordinates);
+        
 
       }
-      else if(local_name===local2)
+      else if(local_name.slice(0, local2.length - 1) === local2.slice(0, -1))
       {
+        
         paint('2',props.local_to_paint['1']['local_name'],p_coordinates);
- 
+        
       }
-      else if(local_name===local3)
+      else if(local_name.slice(0, local3.length - 1) === local3.slice(0, -1))
       {
         paint('3',props.local_to_paint['2']['local_name'],p_coordinates);
+        
 
       }
 

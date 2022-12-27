@@ -1,8 +1,8 @@
 import React, {useState,useEffect} from "react";
 import './Search.css';
 import Map from "../../map";
-
 import data_e from './sales&rent.json';
+
 const SearchBar=()=>{
     const [search,setSearch]=useState(""); 
     const [data_print,setData]=useState("");
@@ -202,6 +202,7 @@ let data=[//test값
 ]
 
 
+
 function Content(search,floor,business){
     for(let i = 0; i < data.length ; i++){
         data[i].value = max_data(business);
@@ -279,6 +280,7 @@ function max_data(business){
     return maxvalue;
 }
 
+
 function min_data(business){//하위 5개 data
     let minvalue = [];
     let endList = [];
@@ -319,4 +321,3 @@ function min_data(business){//하위 5개 data
     return minvalue;
 
 }
-
