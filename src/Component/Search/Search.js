@@ -18,8 +18,11 @@ const SearchBar=()=>{
     const [total_cost,setTotal]=useState("");
     const [showPopup,setShowPopup]=useState(false);
     const [showTotal,setShowTotal]=useState(false);
+    const [calcost,setCalCost]=useState("");
+    const [calrent,setCalRent]=useState("");
     var data_value="";
-var data_value2="";
+    var data_value2="";
+
     const onBusiness=(e)=>{
         const{value}=e.target;
         console.log(value);
@@ -47,11 +50,13 @@ var data_value2="";
         setSearch(event.target.value);
     }
 
-    const onGetdata=(local_name,price,e)=>{
+    const onGetdata=(local_name,price,cost,rent,e)=>{
         console.log(local_name);
         console.log(price);
         setLocal(local_name);
         setPrice(price);
+        setCalCost(cost);
+        setCalRent(rent);
         {showPopup === false ? setShowPopup(true) :setShowPopup(false)}
     }
     const onClick=async()=>{
@@ -59,10 +64,20 @@ var data_value2="";
         data_value2=Content2(search,floor,business);
 
         var data_list=data_value.map((local) =>
-        <div id="local_check" value='true' onClick={(e)=>{onGetdata(local.local_name,local.price,e)}} key={local.id} local_name={local.local_name} price={local.price}>{local.ranking}위 {local.local_name} {parseInt(local.price)}만원</div>);
+        <div id="local_check" value='true' onClick={(e)=>{
+            onGetdata(local.local_name,local.price,local.cost,local.rent,e)}} 
+            key={local.id} local_name={local.local_name} price={local.price}>
+                <div>{local.ranking}위 {local.local_name} {parseInt(local.price)}만원</div>
+                <div id="info">추정매출액 : {parseInt(local.cost)}만원 , 추정임차료 : {parseInt(local.rent)}만원</div>
+        </div>);
 
         var data_list2=data_value2.map((local) => 
-        <div id="local_check" value='true' onClick={(e)=>{onGetdata(local.local_name,local.price,e)}} key={local.id} local_name={local.local_name} price={local.price}>{local.ranking}위 {local.local_name} {parseInt(local.price)}만원</div>);
+        <div id="local_check" value='true' onClick={(e)=>{
+            onGetdata(local.local_name,local.price,local.cost,local.rent,e)}} 
+            key={local.id} local_name={local.local_name} price={local.price}>
+                <div>{local.ranking}위 {local.local_name} {parseInt(local.price)}만원</div>
+                <div id="info">추정매출액 : {parseInt(local.cost)}만원 , 추정임차료 : {parseInt(local.rent)}만원</div>
+        </div>);
 
         setData(data_list);
         setData2(data_list2);
@@ -71,15 +86,6 @@ var data_value2="";
 
     const onCal=async()=>{
         
-        // let rent_e=data_e.value;
-        // for(let i = 0; i <rent_e.length ; i++){
-        //     let location=rent_e[i].구_x+" "+rent_e[i].동
-        //     if(local==location)
-        //     {
-        //         setRent(parseInt(rent_e[i].추정월세));
-        //         break;
-        //     }
-        // }
         const total_cost=Number(price)-Number(admin_cost)-Number(person_cost);
         console.log(price);
         setTotal(total_cost);
@@ -101,19 +107,19 @@ var data_value2="";
         <>
         <Map local_to_paint={paint}></Map>
         <div id='window'>
-            <div className='title' >상권분석</div>
+            <div className='title' >영업이익 분석 서비스</div>
             <div className='component_checkbox'>
-                <div className='button'>
-                    <button id={"btn"+(floor==="B1" ?"_acitve" :"")} value="B1" onClick={onFloor}>B1</button>
-                    <button id={"btn"+(floor==="1F" ?"_acitve" :"")} value="1F" onClick={onFloor}>1F</button>
-                    <button id={"btn"+(floor==="2F" ?"_acitve" :"")} value="2F" onClick={onFloor}>2F</button>
-                    <button id={"btn"+(floor==="3F" ?"_acitve" :"")} value="3F" onClick={onFloor}>3F</button>
-                </div>
                 <div className='button'>
                     <button id={"btn"+(business==="음식점" ?"_acitve" :"")} value="음식점" onClick={onBusiness}>음식점</button>
                     <button id={"btn"+(business==="슈퍼마켓" ?"_acitve" :"")} value="슈퍼마켓" onClick={onBusiness}>슈퍼마켓</button>
                     <button id={"btn"+(business==="학원" ?"_acitve" :"")} value="학원" onClick={onBusiness}>학원</button>
                     <button id={"btn"+(business==="카페" ?"_acitve" :"")} value="카페" onClick={onBusiness}>카페</button>
+                </div>
+                <div className='button'>
+                    <button id={"btn"+(floor==="B1" ?"_acitve" :"")} value="B1" onClick={onFloor}>B1</button>
+                    <button id={"btn"+(floor==="1F" ?"_acitve" :"")} value="1F" onClick={onFloor}>1F</button>
+                    <button id={"btn"+(floor==="2F" ?"_acitve" :"")} value="2F" onClick={onFloor}>2F</button>
+                    <button id={"btn"+(floor==="3F" ?"_acitve" :"")} value="3F" onClick={onFloor}>3F</button>
                 </div>
                 <div className='search'>
                     <input id="inputbox"
@@ -126,18 +132,20 @@ var data_value2="";
                 </div>
                 <div className="component_price">
                     <hr></hr>
-                    <div className='price'>지역 별 순위</div>
-                    <div className='orderlist'>내림차 순 &#9660;</div>
-                    <div id='data'>{data_print}</div>
-                    <div className='orderlist'>오름차 순 &#9660;</div>
-                    <div id='data'>{data_print2}</div>
+                    <div className='price'>지역별 순위(추정매출액-추정임차료)</div>
+                    <div style={{overflowY:'auto',height:'700px'}}>
+                        <div className='orderlist'>내림차 순 &#9660;</div>
+                        <div id='data'>{data_print}</div>
+                        <div className='orderlist'>오름차 순 &#9660;</div>
+                        <div id='data'>{data_print2}</div>
+                    </div>
 
                 </div>
         </div>
         </div>
         {showPopup?(
         <div className="sub_window">
-            <div className='title'>상권분석</div>
+            <div className='title'>영업이익 분석 서비스</div>
             <button id="btn_back" onClick={onGetdata}>뒤로가기</button>
             <input id="inputbox2"
                 type="search"
@@ -148,20 +156,26 @@ var data_value2="";
             <input id="inputbox2"
                 type="search"
                 value={admin_cost}
-                placeholder="관리비"
+                placeholder="재료비"
                 onChange={onChangeAdmin}
                 />
             <button id="search_button" value='false' onClick={onCal}>계산하기</button>
             <hr></hr>
             {showTotal?(<div id='total_cal'>
-                <div id='cal_title'>인건비가 {person_cost} 만원이고 </div>
-                <div id='cal_title'>관리비가 {admin_cost} 만원 일 때</div>
-                {/* <div id='cal_title'>월세가 {rent} 일 때</div> */}
-                <div id='cal_title'>{local}의 상권 최대 이익은 </div>
+                <div id='expression'>
+                    <div id='cal_title3'>추정식</div>
+                    <div id='cal_title2'> 영업이익 = 추정매출액 - 추정임차료 - 인건비 - 재료비</div>
+                </div>
+                <div id='cal_title'><span id="color">추정매출액 : {parseInt(calcost)} 만원</span></div>
+                <div id='cal_title'><span id='color'>추정임차료 : {parseInt(calrent)} 만원</span></div>
+                <div id='cal_title'><span id='color'>인건비 : {person_cost} 만원</span></div>
+                <div id='cal_title'><span id='color'>재료비 :  {admin_cost} 만원</span></div>
+                <div id='cal_title'><span id='color'>{local}</span>의 영업이익은</div>
                 <p>
-                    <span id='total_cost'>{parseInt(total_cost)}</span>
-                    <span id='cal_title'>만원 입니다</span>
+                    <span id='total_cost'>{parseInt(total_cost)}  만원</span>
+                    <span id='cal_title'> 입니다</span>
                 </p>
+                <div></div>
             </div>):null}
         </div>
         )
@@ -175,33 +189,33 @@ let data=[//test값
     {
         area:50,
         value:[
-            {id:1,ranking:1,local_name:"강남구 논현1동",price:'500'},
-            {id:2,ranking:2,local_name:"은평구 응암1동",price:'300'},
-            {id:3,ranking:3,local_name:"서대문구 홍제1동",price:'200'},
-            {id:4,ranking:4,local_name:"중구 명동",price:'500'},
-            {id:5,ranking:5,local_name:"용산구 남영동",price:'300'}
+            {id:1,ranking:1,local_name:"강남구 논현1동",price:'500',cost:'100',rent:'100'},
+            {id:2,ranking:2,local_name:"은평구 응암1동",price:'300',cost:'100',rent:'100'},
+            {id:3,ranking:3,local_name:"서대문구 홍제1동",price:'200',cost:'100',rent:'100'},
+            {id:4,ranking:4,local_name:"중구 명동",price:'500',cost:'100',rent:'100'},
+            {id:5,ranking:5,local_name:"용산구 남영동",price:'300',cost:'100',rent:'100'}
             ]
        
     },
     {
-        area:30,
+        area:100,
         value:[
-            {id:1,ranking:1,local_name:"중구 명동",price:'500'},
-            {id:2,ranking:2,local_name:"용산구 남영동",price:'300'},
-            {id:3,ranking:3,local_name:"종로구 무악동",price:'200'},
-            {id:4,ranking:4,local_name:"성북구 안암동",price:'500'},
-            {id:5,ranking:5,local_name:"노원구 상계1동",price:'300'}
+            {id:1,ranking:1,local_name:"중구 명동",price:'500',cost:'100',rent:'100'},
+            {id:2,ranking:2,local_name:"용산구 남영동",price:'300',cost:'100',rent:'100'},
+            {id:3,ranking:3,local_name:"종로구 무악동",price:'200',cost:'100',rent:'100'},
+            {id:4,ranking:4,local_name:"성북구 안암동",price:'500',cost:'100',rent:'100'},
+            {id:5,ranking:5,local_name:"노원구 상계1동",price:'300',cost:'100',rent:'100'}
             ]
        
     },
     {
-        area:15,
+        area:60,
         value:[
-            {id:1,ranking:'1',local_name:"성북구 안암동",price:'500'},
-            {id:2,ranking:'2',local_name:"노원구 상계1동",price:'300'},
-            {id:3,ranking:'3',local_name:"중랑구 상봉1동",price:'200'},
-            {id:4,ranking:'4',local_name:"강남구 논현1동",price:'500'},
-            {id:5,ranking:'5',local_name:"은평구 응암1동",price:'300'}
+            {id:1,ranking:'1',local_name:"성북구 안암동",price:'500',cost:'100',rent:'100'},
+            {id:2,ranking:'2',local_name:"노원구 상계1동",price:'300',cost:'100',rent:'100'},
+            {id:3,ranking:'3',local_name:"중랑구 상봉1동",price:'200',cost:'100',rent:'100'},
+            {id:4,ranking:'4',local_name:"강남구 논현1동",price:'500',cost:'100',rent:'100'},
+            {id:5,ranking:'5',local_name:"은평구 응암1동",price:'300',cost:'100',rent:'100'}
         ]
        
     }
@@ -212,7 +226,7 @@ let data=[//test값
 
 function Content(search,floor,business){
     for(let i = 0; i < data.length ; i++){
-        data[i].value = max_data(business);
+        data[i].value = max_data(search,floor,business);
 
     }
     var data_value="";
@@ -234,7 +248,7 @@ function Content(search,floor,business){
 function Content2(search,floor,business){
     for(let i = 0; i < data.length ; i++){
         //data[i].value = max_data();
-        data[i].value=min_data(business);
+        data[i].value=min_data(search,floor,business);
     }
 
     var data_value="";
@@ -257,7 +271,8 @@ function Content2(search,floor,business){
 
 
 
-function max_data(business){
+function max_data(search,floor,business){
+
     let maxvalue = [];
     let endList = [];
     
@@ -265,21 +280,25 @@ function max_data(business){
         let max = 0;
         let maxlocation = "";
         let sales=data_e.value;
-        
+        let maxcost="";
+        let maxrent="";
+
         for(let i = 0; i < sales.length ; i++){
-            if(business==sales[i].업종)
+            if(business==sales[i].업종 && floor==sales[i].층+"F" && search==sales[i].전용면적)
             {
                 let location = sales[i].구_x + " " + sales[i].동;
                 if(!endList.includes(location)){
                     if(max <  sales[i].추정매출-sales[i].추정월세){
                         max = sales[i].추정매출-sales[i].추정월세;
                         maxlocation = location;
+                        maxcost=sales[i].추정매출;
+                        maxrent=sales[i].추정월세;
                     }
                 }
             }
         }
 
-        maxvalue.push({id:maxvalue.length + 1, ranking: maxvalue.length + 1, local_name: maxlocation, price: max});
+        maxvalue.push({id:maxvalue.length + 1, ranking: maxvalue.length + 1, local_name: maxlocation, price: max,cost:maxcost,rent:maxrent});
         endList.push(maxlocation);
     }
 
@@ -288,7 +307,7 @@ function max_data(business){
 }
 
 
-function min_data(business){//하위 5개 data
+function min_data(search,floor,business){//하위 5개 data
     let minvalue = [];
     let endList = [];
     
@@ -300,29 +319,30 @@ function min_data(business){//하위 5개 data
         let minlocation = "";
         let idNum=sales.length-endList.length;
         let rankingNum=sales.length-endList.length;
-    
+        let mincost;
+        let minrent;
         //for(let i = market.length-2; i >=0; i--){
 
         for(let i = 0; i<sales.length; i++){
 
-            if(business==sales[i].업종)
+            if(business==sales[i].업종 && floor==sales[i].층+'F' && search==sales[i].전용면적)
             {
                 let location = sales[i].구_x + " " + sales[i].동;
-                //min = market[market.length-1].추정월세;
     
                 if(!endList.includes(location)){
                     if(min >  sales[i].추정매출-sales[i].추정월세){
+                        if(sales[i].추정매출-sales[i].추정월세<100){continue;}
                         min = sales[i].추정매출-sales[i].추정월세;
                         minlocation = location;
-                        //idNum++;
-                        //rankingNum--;
+                        mincost=sales[i].추정매출;
+                        minrent=sales[i].추정월세;
                     }
     
                 }
             }
         }
-        //minvalue.push({id: market.length-minvalue.length , ranking:market.length-minvalue.length, local_name: minlocation, price: min});
-        minvalue.push({id:idNum, ranking:rankingNum, local_name: minlocation, price: min});
+        
+        minvalue.push({id:idNum, ranking:rankingNum, local_name: minlocation, price: min,cost:mincost,rent:minrent});
         endList.push(minlocation);
 
     }
