@@ -82,7 +82,7 @@ const Map = (props) => {
     data.forEach((val) => {
       coordinates = val.geometry.coordinates;
       name = val.properties.adm_nm;
-      name = name.substring(5) //서울특별시 자르기  
+      name = name.substring(5); //서울특별시 자르기  
 
       displayArea(coordinates, name);
     });
@@ -105,10 +105,10 @@ const Map = (props) => {
           map: map,
           path: path, // 그려질 다각형의 좌표 배열입니다
           strokeWeight: 2, // 선의 두께입니다
-          strokeColor: '#212121', // 선의 색깔입니다
+          strokeColor: '#004c80', // 선의 색깔입니다
           strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
           strokeStyle: 'solid', // 선의 스타일입니다
-          fillColor: '#212121', // 채우기 색깔입니다
+          fillColor: '#004c80', // 채우기 색깔입니다
           fillOpacity: 0.7, // 채우기 불투명도 입니다
         });
         
@@ -149,7 +149,6 @@ const Map = (props) => {
       local_name=val.properties.adm_nm;
 
       
-      console.log(count , local_name.slice(0, local1.length - 1));
       count += 1;
       if(local_name.slice(0, local1.length - 1) === local1.slice(0, -1))
       {
