@@ -31,6 +31,7 @@
     width: 70px;;
     height:45px;
     color:black;
+    font-family: 'GangwonEduPowerExtraBoldA';
 }
 
 #btn_back
@@ -44,6 +45,7 @@
     width: 70px;;
     height:45px;
     color:black;
+    font-family: 'GangwonEduPowerExtraBoldA';
 }
 
 #content
@@ -119,7 +121,7 @@
     width:1000px;
     height:50px;
     margin-left: 20px;
-    margin-top: 20px;
+    margin-top: 13px;
 }
 
 .component_price{
@@ -176,7 +178,9 @@
     width:630px;
     height:1100px;
 }
-
+#color{
+    background-color:rgba(167, 186, 240, 0.377);
+}
 #cal_title{
     font-family: 'GangwonEduPowerExtraBoldA';
     font-size:30px;
@@ -184,15 +188,42 @@
     margin:30px;
 }
 
+#expression{
+    background-color:whitesmoke;
+}
+
+#cal_title2{
+    font-family: 'GangwonEduPowerExtraBoldA';
+    font-size:17px;
+    padding: 5px;
+    margin:5px;
+}
+#cal_title3{
+    font-family: 'GangwonEduPowerExtraBoldA';
+    font-size:30px;
+    padding: 5px;
+    margin:5px;
+}
+#special{
+    padding: 10px;
+    margin:10px;
+    font-size:30px;
+    background-color:rgba(167, 186, 240, 0.377);
+}
+
 #total_cost{
     font-family: 'GangwonEduPowerExtraBoldA';
     font-size:50px;
-    margin:30px;
-    padding: 5px;
+    margin-left:30px;
+    padding-left: 5px;
+    background-color:rgba(167, 186, 240, 0.377);
 }
 #total_cal{
     padding: 20px;
     margin: 20px;
+}
+#info{
+    font-size: 25px;
 }
 
 @font-face {
